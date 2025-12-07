@@ -1,0 +1,45 @@
+# =========================
+# Etapa de build
+# =========================
+FROM node:22-alpine AS build
+
+WORKDIR /app
+
+# Solo package.json + package-lock (si existe) para cachear bien
+COPY package*.json ./
+
+# Instalamos solo dependencias de producción (devDependencies no hacen falta en runtime)
+RUN npm ci
+
+# Copiamos TS y config
+COPY tsconfig.json ./
+COPY src ./src
+
+# Compilamos TypeScript
+RUN npm run build
+
+# =========================
+# Etapa final (runtime)
+# =========================
+FROM node:22-alpine
+
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/dist ./dist
+
+VOLUME ["/app/data"]
+
+EXPOSE 4000
+
+ENV PORT=4000
+ENV SQLITE_PATH=/app/data/app.db
+
+ENV INTERNAL_API_KEY=
+ENV SCHEDULER_TICK_MS=30000
+ENV SCHEDULER_WINDOW_MS=60000
+ENV SPHERE_HTTP_URL=
+ENV SPHERE_HTTP_TOKEN=
+
+CMD ["node", "dist/index.js"]

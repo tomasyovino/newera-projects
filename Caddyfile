@@ -1,0 +1,17 @@
+# Web principal
+tu-dominio.com {
+    encode zstd gzip
+    reverse_proxy web:3000
+}
+
+# API (vm-api)
+api.tu-dominio.com {
+    encode zstd gzip
+    reverse_proxy vm-api:4000
+}
+
+# Wiki
+wiki.tu-dominio.com {
+    encode zstd gzip
+    reverse_proxy wiki:3000
+}

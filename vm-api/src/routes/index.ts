@@ -1,0 +1,15 @@
+export { aboutRouter } from './about';
+export { donationsRouter } from './donations';
+export { newsRouter } from './news';
+export { packsRouter } from './packs';
+export { rulesRouter } from './rules';
+export { weeklyEventsRouter } from './weekly-events';
+export { worldEventsRouter } from './world-events';
+export { adminAboutRouter } from './admin/about';
+export { adminDonationsRouter } from './admin/donations';
+export { adminNewsRouter } from './admin/news';
+export { adminPacksRouter } from './admin/packs';
+export { adminRulesRouter } from './admin/rules';
+export { adminWeeklyEventsRouter } from './admin/weekly-events';
+export { adminWorldEventsRouter } from './admin/world-events';
+export { healthRouter } from './health';

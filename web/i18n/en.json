@@ -1,0 +1,33 @@
+{
+  "brand": "New Era",
+  "nav": {
+    "events": "Events",
+    "donate": "Donate",
+    "community": "Community",
+    "download": "Download",
+    "news": "News"
+  },
+  "cta": {
+    "playDownload": "Play"
+  },
+  "home": {
+    "subtitle": "Welcome to our Ultima Online server, where old-school adventure comes to life. With a variety of weekly events and an active community on Discord, there's always something exciting to do. Simply download the client and join our Discord to start your journey and explore Britannia with fellow adventurers."
+  },
+  "about": {
+    "title": "About UO New Era",
+    "p1": "UO New Era is an Ultima Online shard focused on PvP, PvM and organized events.",
+    "p2": "Our priorities are fun, balance and community."
+  },
+  "discord": {
+    "title": "Join our Discord",
+    "cta": "Open Discord"
+  },
+  "wiki": {
+    "title": "Wiki under construction",
+    "desc": "We'll publish guides and resources soon."
+  },
+  "donate": {
+    "title": "Support the server",
+    "note": "Donations help keep the project online. Items are delivered in-game according to the list below."
+  }
+}

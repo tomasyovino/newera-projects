@@ -1,0 +1,114 @@
+version: "3.8"
+
+services:
+  # ======================
+  # Reverse proxy + HTTPS
+  # ======================
+  caddy:
+    image: caddy:2
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+      - vm-api
+      - wiki
+
+  # ======================
+  # Web (Next.js)
+  # ======================
+  web:
+    build: ./web
+    container_name: uone-web
+    restart: unless-stopped
+    expose:
+      - "3000"
+    environment:
+      - NODE_ENV=production
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=12345
+      - USE_MOCK=false
+      # Desde afuera siempre vas a entrar por HTTPS vía Caddy,
+      # esto es solo para que la app se auto-referencie bien:
+      - API_BASE_URL=https://tu-dominio.com
+      - NEXT_PUBLIC_API_BASE_URL=https://api.tu-dominio.com
+      - NEXT_PUBLIC_PAYPAL_URL=https://tu-dominio.com/es
+      - NEXT_PUBLIC_DISCORD_URL=
+      - NEXT_PUBLIC_WIKI_URL=https://wiki.tu-dominio.com
+      - NEXT_PUBLIC_DOWNLOAD_URL_WIN=https://drive.google.com/uc?id=18ux1YoGhV-4TLv0VjpV1TVedFvc2fld8
+      - DEFAULT_TZ=Europe/Madrid
+      - VM_API_BASE_URL=http://vm-api:4000
+      - VM_INTERNAL_API_KEY=uone_vm_api_82JH2h3tKh_123_super_secreto
+    volumes:
+      - ./web/data:/app/data
+
+  # ======================
+  # VM API (tu uone-vm-api)
+  # ======================
+  vm-api:
+    build: ./vm-api
+    container_name: uone-vm-api
+    restart: unless-stopped
+    expose:
+      - "4000"
+    environment:
+      - PORT=4000
+      - SQLITE_PATH=/app/data/app.db
+      - INTERNAL_API_KEY=uone_vm_api_82JH2h3tKh_123_super_secreto
+      - SCHEDULER_TICK_MS=30000
+      - SCHEDULER_WINDOW_MS=60000
+      # Desactivar scheduler:
+      # - DISABLE_SCHEDULER=1
+      - SPHERE_HTTP_URL=
+      - SPHERE_HTTP_TOKEN=
+    volumes:
+      - ./vm-api/data:/app/data
+
+  # ======================
+  # Wiki.js + Postgres
+  # ======================
+  wiki-db:
+    image: postgres:14
+    container_name: wikijs-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: wikijs
+      POSTGRES_USER: wikijs
+      POSTGRES_PASSWORD: wikijs_pass_super_secreto
+      TZ: Europe/Madrid
+    volumes:
+      - ./wiki/data:/var/lib/postgresql/data
+
+  wiki:
+    image: requarks/wiki:2
+    container_name: wikijs
+    restart: unless-stopped
+    depends_on:
+      - wiki-db
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: wiki-db
+      DB_PORT: 5432
+      DB_USER: wikijs
+      DB_PASS: wikijs_pass_super_secreto
+      DB_NAME: wikijs
+      TZ: Europe/Madrid
+      # cuando tengas dominio definitivo:
+      # PUBLIC_URL: https://wiki.tu-dominio.com
+    expose:
+      - "3000"
+    volumes:
+      - ./wiki/files:/wiki/data
+      # Opcional: branding
+      # - ./wiki/branding/favicons/favicon.ico:/wiki/assets/favicon.ico:ro
+      # - ./wiki/branding/favicons:/wiki/assets/favicons:ro
+
+volumes:
+  caddy_data:
+  caddy_config:

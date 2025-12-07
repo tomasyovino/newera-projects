@@ -1,0 +1,60 @@
+# ---- Node / package managers ----
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# ---- Next.js / build output ----
+.next/
+out/
+dist/
+build/
+.next-cache/
+
+# ---- TypeScript ----
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# ---- Env files (keep .env.example) ----
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ---- Caches / tooling ----
+.turbo/
+.vercel/
+.eslintcache
+.cache/
+.tmp/
+temp/
+tmp/
+
+# ---- Testing / coverage (if added later) ----
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+
+# ---- Editors / IDEs ----
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.iml
+
+# ---- OS files ----
+.DS_Store
+Thumbs.db
+
+# ---- Misc ----
+*.log
+*.local
+*.swp
+*.swo
+/data/*
+!/data/.gitkeep

@@ -1,0 +1,24 @@
+services:
+  vm-api:
+    build: .
+    container_name: uone-vm-api
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - SQLITE_PATH=/app/data/app.db
+      - INTERNAL_API_KEY=uone_vm_api_82JH2h3tKh_123_super_secreto
+      - SCHEDULER_TICK_MS=30000      # cada 30 segundos
+      - SCHEDULER_WINDOW_MS=60000    # ventana de 60s para disparar eventos
+      # Para desactivar scheduler:
+      # - DISABLE_SCHEDULER=1
+
+      # Opcional: integración Sphere vía HTTP bridge
+      # Si no ponés URL, el sphereClient queda en modo "dry-run" y solo loguea.
+      - SPHERE_HTTP_URL=
+      - SPHERE_HTTP_TOKEN=
+
+    volumes:
+      - ./data:/app/data
+
+    restart: unless-stopped

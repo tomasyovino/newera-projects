@@ -1,0 +1,33 @@
+{
+  "brand": "New Era",
+  "nav": {
+    "events": "Eventos",
+    "donate": "Donaciones",
+    "community": "Comunidad",
+    "download": "Descargar",
+    "news": "Novedades"
+  },
+  "cta": {
+    "playDownload": "Jugar"
+  },
+  "home": {
+    "subtitle": "Bienvenido a nuestro servidor de Ultima Online, donde la aventura de la vieja escuela cobra vida. Con eventos semanales variados y una comunidad activa en Discord, siempre hay algo emocionante que hacer. Simplemente descarga el cliente y únete a nuestro Discord para comenzar tu viaje y explorar Britannia junto a otros aventureros."
+  },
+  "about": {
+    "title": "Sobre UO New Era",
+    "p1": "UO New Era es un shard de Ultima Online con enfoque en PvP, PvM y eventos organizados.",
+    "p2": "Nuestra prioridad es la diversión, el balance y la comunidad."
+  },
+  "discord": {
+    "title": "Únete a nuestro Discord",
+    "cta": "Abrir Discord"
+  },
+  "wiki": {
+    "title": "Wiki en construcción",
+    "desc": "Próximamente publicaremos la wiki con guías y recursos."
+  },
+  "donate": {
+    "title": "Apoya el servidor",
+    "note": "Las donaciones ayudan a mantener el proyecto en línea. Los ítems se entregan dentro del juego según el listado siguiente."
+  }
+}

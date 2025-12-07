@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:14
+    container_name: wikijs-db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      TZ: ${TZ}
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  wiki:
+    image: requarks/wiki:2
+    container_name: wikijs
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: ${POSTGRES_USER}
+      DB_PASS: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB}
+      TZ: ${TZ}
+      # Opcional: URL pública si luego lo pones detrás de dominio/reverso
+      # PUBLIC_URL: http://localhost:${WIKI_PORT}
+    ports:
+      - "${WIKI_PORT}:3000"
+    volumes:
+      - ./files:/wiki/data
+      - ./branding/favicons/favicon.ico:/wiki/assets/favicon.ico:ro
+      - ./branding/favicons:/wiki/assets/favicons:ro
+    restart: unless-stopped
